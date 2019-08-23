@@ -1,1 +1,1 @@
-# EpicBoardGame
+# An Epic Boardgame
