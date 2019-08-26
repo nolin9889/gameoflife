@@ -1,29 +1,20 @@
 import React from 'react';
 import { Tile } from '../Tile/Tile.js';
-
+import { Row } from '../Row/Row.js';
 import './Board.css';
 
 export class Board extends React.Component {
-  tiles  = this.props.tiles;
+  rows  = this.props.rows;
 
   render() {
     return (
       <div>
-        <div className="row">
-          <Tile data={this.tiles[0]}></Tile>
-          <Tile data={this.tiles[1]}></Tile>
-          <Tile data={this.tiles[2]}></Tile>
-        </div>
-        <div className="row">
-          <Tile data={this.tiles[3]}></Tile>
-          <Tile data={this.tiles[4]}></Tile>
-          <Tile data={this.tiles[5]}></Tile>
-        </div>        
-        <div className="row">
-          <Tile data={this.tiles[6]}></Tile>
-          <Tile data={this.tiles[7]}></Tile>
-          <Tile data={this.tiles[8]}></Tile>
-        </div>
+        {this.rows.map(row => <Row row={row}></Row>)}
+        {/* <Row row={this.rows[0]}></Row>
+        <Row row={this.rows[1]}></Row>
+        <Row row={this.rows[2]}></Row>
+        <Row row={this.rows[3]}></Row>
+        <Row row={this.rows[4]}></Row> */}
 
       </div>
     )

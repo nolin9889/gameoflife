@@ -10,7 +10,8 @@ export class Tile extends React.Component {
     super(props);
 
     this.state = {
-      color: this.getRandomRgb()
+      // color: this.getRandomRgb()
+      color: "silver"
     }
   }
   
@@ -29,7 +30,10 @@ export class Tile extends React.Component {
   render() {
     const tileData = this.props.data;
     return (
-      <Button className="tile" style={{"background-color": this.state.color}} onClick={this.onButtonClick}>
+      <Button className="tile" 
+        style={{"background-color": this.state.color}} 
+        onClick={this.onButtonClick}
+      >
         {tileData}
       </Button>
     )

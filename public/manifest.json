@@ -1,6 +1,6 @@
 {
-  "short_name": "Epic!",
-  "name": "The Epic! Board",
+  "short_name": "GoF",
+  "name": "Conway's Game of Life",
   "icons": [
     {
       "src": "favicon.ico",
