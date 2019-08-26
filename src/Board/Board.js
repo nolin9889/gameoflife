@@ -10,12 +10,6 @@ export class Board extends React.Component {
     return (
       <div>
         {this.rows.map(row => <Row row={row}></Row>)}
-        {/* <Row row={this.rows[0]}></Row>
-        <Row row={this.rows[1]}></Row>
-        <Row row={this.rows[2]}></Row>
-        <Row row={this.rows[3]}></Row>
-        <Row row={this.rows[4]}></Row> */}
-
       </div>
     )
   }

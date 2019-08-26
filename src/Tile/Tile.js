@@ -3,9 +3,7 @@ import './Tile.css';
 import logo from '../logo.svg';
 import { Button } from 'react-bootstrap';
 
-
 export class Tile extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -28,12 +26,12 @@ export class Tile extends React.Component {
   }
 
   render() {
-    const tileData = this.props.data;
+    const isAlive = this.props.isAlive;
     return (
       <Button className="tile"
         // style={{"background-color": this.state.color}}
         // style={{"background-color": tileData ? this.getRandomRgb() : this.state.color}}
-        style={{"background-color": tileData ? "black" : this.state.color}}
+        style={{"background-color": isAlive ? "black" : this.state.color}}
         onClick={this.onButtonClick}
       >
         {/* {tileData} */}
