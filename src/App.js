@@ -8,7 +8,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rows: this.generateGrid(15,15),
+      grid: this.generateGrid(5,5),
       date: new Date(),
       running: false,
     }
@@ -37,7 +37,7 @@ class App extends React.Component {
     if(this.state.running) {
       this.setState({
         date: new Date(),
-        rows: this.updateGrid(this.state.rows)
+        grid: this.updateGrid(this.state.grid)
       });
     }
     else {
@@ -60,13 +60,25 @@ class App extends React.Component {
         grid[i][j] = false;
       }
     }
+
+    grid[0][1] = true;
+    grid[1][2] = true;
+    grid[2][0] = true;
+    grid[2][1] = true;
+    grid[2][2] = true;
+    // grid[5][5] = true;
+    // grid[5][6] = true;
+    // grid[5][7] = true;
+    // grid[6][6] = true;
+    // grid[7][7] = true;
+
     return grid;
   }
 
-  updateGrid(rows) {
-    let x = Math.floor(Math.random() * Math.floor(rows.length))
-    let y = Math.floor(Math.random() * Math.floor(rows[0].length))
-    rows[x][y] = !rows[x][y];
+  updateGrid(grid) {
+    // let x = Math.floor(Math.random() * Math.floor(grid.length))
+    // let y = Math.floor(Math.random() * Math.floor(grid[0].length))
+    // grid[x][y] = !grid[x][y];
 
     // For a space that is 'populated':
     // Each cell with one or no neighbors dies, as if by solitude.
@@ -74,25 +86,92 @@ class App extends React.Component {
     // Each cell with two or three neighbors survives.
     // For a space that is 'empty' or 'unpopulated'
     // Each cell with three neighbors becomes populated.
-    // for (let i = 0; i < rows.length; i++) {
-    //   for (let j = 0; j < rows[i].length; i++) {
-    //     let neighbors = getNeighborsCount(rows, i, j);
-    //     if (neighbors < 2 || neighbors > 4) 
-    //       rows[i][j] = false;
-    //     else 
-    //       rows[i][j] = true;
-    //   }
-    // }
+    let neighbors = new Array(grid.length);
     
-    return rows;
+    for (var i = 0; i < grid.length; i++) {
+      neighbors[i] = new Array(grid[0].length);
+    }
+    // Initialize data.
+    for(let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[0].length; j++) {
+        neighbors[i][j] = 0;
+      }
+    }
+
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        neighbors[i][j] = this.getNeighborsCount(grid, i, j);
+        console.log(neighbors[i][j]);
+      }
+
+    for (let x = 0; x < grid.length; x++) {
+      for (let y = 0; y < grid[x].length; y++) {
+        
+        if (grid[x][y] === false && neighbors[x][y] === 3) {
+          grid[x][y] = true;
+        }
+
+        else if (neighbors[x][y] < 2 || neighbors[x][y] > 4) {
+          grid[x][y] = false;
+        }
+
+        else {
+          // Do nothing. Remain the same if cell has 2 or 3 neighbors. 
+        }
+      }
+    }  
+
+      }
+    
+    
+    return grid;
   }
 
   // TODO
-  getNeighborsCount(rows, i, j) {
+  getNeighborsCount(grid, i, j) {
     let count = 0;
-    if (i - 1 >= 0)
+    
+    try {
+      if (grid[i-1][j-1]) count += 1;
+    }
+    catch {}
 
-    return 0;
+    try {
+      if (grid[i-1][j]) count += 1;
+    }
+    catch {}
+    
+    try {
+      if (grid[i-1][j+1]) count += 1;
+    }
+    catch {}
+    
+    try {
+      if (grid[i][j-1]) count += 1;
+    }
+    catch {}
+    
+    try {
+      if (grid[i][j+1]) count += 1;
+    }
+    catch {}
+    
+    try {
+      if (grid[i+1][j-1]) count += 1;
+    }
+    catch {}
+    
+    try {
+      if (grid[i+1][j]) count += 1;
+    }
+    catch {}
+    
+    try {
+      if (grid[i+1][j+1]) count += 1;
+    }
+    catch {}
+    
+    return count;
   }
 
   render() {
@@ -101,7 +180,7 @@ class App extends React.Component {
         <div className="container"> 
           <h1>Conway's Game of Life</h1>
           <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-          <Board className="Board" rows={this.state.rows}/>
+          <Board className="Board" grid={this.state.grid}/>
           <Button id="toggle" onClick={this.toggle}>Start/Stop</Button>
         </div>
       </div>
