@@ -14,7 +14,7 @@ export class Tile extends React.Component {
       color: "silver"
     }
   }
-  
+
   getRandomRgb() {
     var num = Math.round(0xffffff * Math.random());
     var r = num >> 16;
@@ -30,11 +30,13 @@ export class Tile extends React.Component {
   render() {
     const tileData = this.props.data;
     return (
-      <Button className="tile" 
-        style={{"background-color": this.state.color}} 
+      <Button className="tile"
+        // style={{"background-color": this.state.color}}
+        // style={{"background-color": tileData ? this.getRandomRgb() : this.state.color}}
+        style={{"background-color": tileData ? "black" : this.state.color}}
         onClick={this.onButtonClick}
       >
-        {tileData}
+        {/* {tileData} */}
       </Button>
     )
   }
