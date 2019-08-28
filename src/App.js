@@ -8,12 +8,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: this.generateGrid(25,35),
+      grid: this.generateGrid(200,80),  // Column size is limited to screen size. 
       date: new Date(),
       running: false,
     }
     
     this.toggle = this.toggle.bind(this);
+    this.step = this.step.bind(this);
   }
 
   componentDidMount() {
@@ -28,14 +29,15 @@ class App extends React.Component {
   }
 
   toggle() {
-    // this.setState({
-    //   running: !this.state.running
-    // })   
-    
-      this.setState({
-        grid: this.updateGrid(this.state.grid)
-      });
+    this.setState({
+      running: !this.state.running
+    })
+  }
 
+  step() {
+    this.setState({
+      grid: this.updateGrid(this.state.grid)
+    });
   }
 
   tick() {
@@ -66,31 +68,24 @@ class App extends React.Component {
       }
     }
 
-    grid[10][11] = true;
-    grid[11][12] = true;
-    grid[12][10] = true;
-    grid[12][11] = true;
-    grid[12][12] = true;
-    // grid[5][5] = true;
-    // grid[5][6] = true;
-    // grid[5][7] = true;
-    // grid[6][6] = true;
-    // grid[7][7] = true;
+    // TODO Create customizable beginning states.
+    grid[5][6] = true;
+    grid[6][7] = true;
+    grid[7][5] = true;
+    grid[7][6] = true;
+    grid[7][7] = true;
 
     return grid;
   }
 
   updateGrid(grid) {
-    // let x = Math.floor(Math.random() * Math.floor(grid.length))
-    // let y = Math.floor(Math.random() * Math.floor(grid[0].length))
-    // grid[x][y] = !grid[x][y];
 
     // Initialize neighborCount 2d array with 0
     let neighborCount = new Array(grid.length);
-    for (var i = 0; i < grid.length; i++) {
+    for (let i = 0; i < grid.length; i++) {
       neighborCount[i] = new Array(grid[0].length);
     }
-    for(let i = 0; i < grid.length; i++) {
+    for (let i = 0; i < grid.length; i++) {
       for (let j = 0; j < grid[0].length; j++) {
         neighborCount[i][j] = 0;
       }
@@ -101,7 +96,6 @@ class App extends React.Component {
         neighborCount[u][v] = this.getNeighborsCount(grid, u, v);
       }
     }
-    neighborCount.forEach(row => console.log(row)); // debug
 
     // For a space that is 'populated':
     // Each cell with one or no neighbors dies, as if by solitude.
@@ -115,7 +109,7 @@ class App extends React.Component {
         if (neighborCount[r][c] === 3) {
           grid[r][c] = true;
         }
-        else if (neighborCount[r][c] < 2 || neighborCount[r][c] > 4) {
+        else if (neighborCount[r][c] < 2 || neighborCount[r][c] > 3) {
           grid[r][c] = false;
         }
         else {} // Do nothing if cell has 2 neighbors.
@@ -125,7 +119,7 @@ class App extends React.Component {
     return grid;
   }
 
-  // TODO
+  // TODO Make logic better.
   getNeighborsCount(grid, i, j) {
     let count = 0;
     
@@ -179,6 +173,7 @@ class App extends React.Component {
           <h1>Conway's Game of Life</h1>
           <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
           <Board className="Board" grid={this.state.grid}/>
+          <Button id="step" onClick={this.step}>Step</Button>
           <Button id="toggle" onClick={this.toggle}>Start/Stop</Button>
         </div>
       </div>

@@ -1,6 +1,5 @@
 .tile {
-  height: 20px;
-  width: 20px;
+  height: 20px;  /* Anything less than 20px height causes too much spaces between rows. */
+  width: 18px;
   background-color: rgb(128, 128, 128);
-
 }
