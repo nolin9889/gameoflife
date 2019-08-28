@@ -8,7 +8,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: this.generateGrid(200,80),  // Column size is limited to screen size. 
+      grid: this.generateGrid(40,50),  // Column size is limited to screen size due to button minimum sizes. Row is not constrained (except by the brute force algorithm.)
       date: new Date(),
       running: false,
     }
@@ -172,9 +172,9 @@ class App extends React.Component {
         <div className="container"> 
           <h1>Conway's Game of Life</h1>
           <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
-          <Board className="Board" grid={this.state.grid}/>
           <Button id="step" onClick={this.step}>Step</Button>
           <Button id="toggle" onClick={this.toggle}>Start/Stop</Button>
+          <Board className="Board" grid={this.state.grid}/>
         </div>
       </div>
     );
