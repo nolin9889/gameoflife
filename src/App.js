@@ -8,11 +8,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: this.generateGrid(5,8),
+      grid: this.generateGrid(25,35),
       date: new Date(),
       running: false,
     }
-
+    
     this.toggle = this.toggle.bind(this);
   }
 
@@ -66,11 +66,11 @@ class App extends React.Component {
       }
     }
 
-    grid[0][1] = true;
-    grid[1][2] = true;
-    grid[2][0] = true;
-    grid[2][1] = true;
-    grid[2][2] = true;
+    grid[10][11] = true;
+    grid[11][12] = true;
+    grid[12][10] = true;
+    grid[12][11] = true;
+    grid[12][12] = true;
     // grid[5][5] = true;
     // grid[5][6] = true;
     // grid[5][7] = true;
@@ -97,13 +97,11 @@ class App extends React.Component {
     }
     // Count how many neighbors there are in each cell.
     for (let u = 0; u < grid.length; u++) {
-      console.log(u);
       for (let v = 0; v < grid[u].length; v++) {
-        console.log("grid[u].length: " + grid[u].length);
         neighborCount[u][v] = this.getNeighborsCount(grid, u, v);
       }
     }
-    neighborCount.forEach(row => console.log(row));
+    neighborCount.forEach(row => console.log(row)); // debug
 
     // For a space that is 'populated':
     // Each cell with one or no neighbors dies, as if by solitude.
@@ -123,11 +121,7 @@ class App extends React.Component {
         else {} // Do nothing if cell has 2 neighbors.
         
       }
-    }  
-
-      
-    
-    
+    }
     return grid;
   }
 
