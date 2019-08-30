@@ -8,7 +8,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      grid: this.generateGrid(40,50),  // Column size is limited to screen size due to button minimum sizes. Row is not constrained (except by the brute force algorithm.)
+      grid: this.createNewGrid(40,50),  // Column size is limited to screen size due to button minimum sizes. Row is not constrained (except by the brute force algorithm.)
       date: new Date(),
       running: false,
     }
@@ -36,7 +36,7 @@ class App extends React.Component {
 
   step() {
     this.setState({
-      grid: this.updateGrid(this.state.grid)
+      grid: this.recalculateGrid(this.state.grid)
     });
   }
 
@@ -44,7 +44,7 @@ class App extends React.Component {
     if(this.state.running) {
       this.setState({
         date: new Date(),
-        grid: this.updateGrid(this.state.grid)
+        grid: this.recalculateGrid(this.state.grid)
       });
     }
     else {
@@ -54,7 +54,15 @@ class App extends React.Component {
     }
   }
 
-  generateGrid(x, y) {
+  markTile(r, c) {
+    let newGrid = [...this.state.grid];
+    newGrid[r][c] = true;
+    this.setState({
+      grid: newGrid
+    })
+  }
+
+  createNewGrid(x, y) {
     // Generate a grid of x rows and y columns.
     let grid = new Array(x);
     for (var i = 0; i < x; i++) {
@@ -78,7 +86,7 @@ class App extends React.Component {
     return grid;
   }
 
-  updateGrid(grid) {
+  recalculateGrid(grid) {
 
     // Initialize neighborCount 2d array with 0
     let neighborCount = new Array(grid.length);
@@ -174,7 +182,9 @@ class App extends React.Component {
           <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
           <Button id="step" onClick={this.step}>Step</Button>
           <Button id="toggle" onClick={this.toggle}>Start/Stop</Button>
-          <Board className="Board" grid={this.state.grid}/>
+          <Board className="Board"
+            markTile={this.markTile}
+            grid={this.state.grid}/>
         </div>
       </div>
     );
